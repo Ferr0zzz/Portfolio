@@ -1,0 +1,18 @@
+@media (max-width: 640px) {
+  nav { gap: 12px; font-size: 0.78rem; }
+  .ls-row { grid-template-columns: 76px 1fr; }
+  .card-bar { flex-wrap: wrap; gap: 6px; }
+}
+
+@media (max-width: 420px) {
+  .eyebrow { font-size: 0.72rem; }
+  .hero-title { max-width: 100%; }
+  .term-body { padding: 16px 14px 20px; font-size: 0.86rem; }
+  .term-bar .id { display: none; }
+  .ls { padding: 14px 16px; }
+  .ls-row { grid-template-columns: 1fr; gap: 2px; padding: 8px 0; }
+  .ls-tag { font-size: 0.78rem; }
+  .card-bar .fname { font-size: 0.78rem; }
+  .wip-badge { font-size: 0.62rem; padding: 3px 8px; }
+  .back-to-top { width: 36px; height: 36px; right: 12px; }
+}

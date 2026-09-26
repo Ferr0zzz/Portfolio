@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feroz — Développeur</title>
+<meta name="description" content="Feroz — développeur full-stack orienté sécurité (BTS CIEL), projets autour du chiffrement : Whisprr (partage de secrets zero-knowledge) et Aegis (messagerie chiffrée E2E).">
+<meta name="author" content="Feroz">
+<meta property="og:title" content="Feroz — Développeur">
+<meta property="og:description" content="Projets autour du chiffrement et de la sécurité : Whisprr et Aegis.">
+<meta property="og:type" content="website">
+<!-- TODO: une fois déployé sur un vrai domaine, ajoute og:url (l'adresse du site) et og:image (une image d'aperçu, ~1200x630px) -->
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/utilities.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<a class="skip-link" href="#top">Aller au contenu</a>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <a class="logo" href="#top">&gt;<span class="caret">_</span> feroz</a>
+    </div>
+    <nav>
+      <a href="#about">à propos</a>
+      <a href="#timeline">parcours</a>
+      <a href="#skills">stack</a>
+      <a href="#projects">projets</a>
+      <a href="#contact">contact</a>
+      <a href="#playground">terminal</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <section id="hero" style="padding-top: 56px;">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">BTS CIEL · développeur full-stack orienté sécurité</p>
+        <h1 class="hero-title">Je construis des systèmes de <span class="glow">chiffrement</span> qu'on peut vraiment comprendre.</h1>
+        <p class="hero-sub">Actuellement en recherche d'opportunités en <strong>développement</strong> ou en <strong>cybersécurité</strong>.</p>
+        <a class="cta" href="#contact">→ me contacter</a>
+      </div>
+      <div class="hero-term">
+        <div class="term">
+      <div class="term-bar">
+        <span class="dot" style="background:#ff5c5c"></span>
+        <span class="dot" style="background:#ffb454"></span>
+        <span class="dot" style="background:#4dff88"></span>
+        <span class="id">session — /home/feroz</span>
+      </div>
+      <div class="term-body" id="hero-body">
+        <script>document.getElementById('hero-body').classList.add('hero-anim');</script>
+        <p class="line in">whoami</p>
+        <p class="line out big">Feroz</p>
+        <p class="line in">cat role.txt</p>
+        <p class="line out">Développeur full-stack orienté sécurité — diplômé d'un BTS CIEL (Cybersécurité, Informatique et réseaux Électroniques).</p>
+        <p class="line in">cat focus.txt</p>
+        <p class="line out">Je construis des projets autour du chiffrement et de la sécurité, de zéro, pour comprendre comment ça marche vraiment.</p>
+        <p class="line in">uptime</p>
+        <p class="line out stats-line"><b>2</b> projets actifs · <b>1</b> déployé · dernière mise à jour : sept. 2026<span class="cursor"></span></p>
+        <script>
+        (function () {
+          var container = document.getElementById('hero-body');
+          if (!container) return;
+          var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (reduce) { container.classList.remove('hero-anim'); return; }
+
+          var lines = Array.prototype.slice.call(container.querySelectorAll('.line'));
+          var last = lines[lines.length - 1];
+          var cursor = last ? last.querySelector('.cursor') : null;
+          if (cursor) cursor.remove();
+
+          var data = lines.map(function (el) {
+            var isIn = el.classList.contains('in');
+            return { el: el, isIn: isIn, plain: el.textContent, html: el.innerHTML };
+          });
+          data.forEach(function (d) { d.el.textContent = ''; });
+
+          var i = 0;
+          function next() {
+            if (i >= data.length) {
+              if (cursor && last) last.appendChild(cursor);
+              container.classList.remove('hero-anim');
+              return;
+            }
+            var d = data[i];
+            d.el.style.visibility = 'visible';
+            var chars = d.plain.split('');
+            var idx = 0;
+            (function typeChar() {
+              d.el.textContent = chars.slice(0, idx + 1).join('');
+              idx++;
+              if (idx < chars.length) {
+                var delay = d.isIn ? 26 + Math.random() * 34 : 9 + Math.random() * 14;
+                setTimeout(typeChar, delay);
+              } else {
+                d.el.innerHTML = d.html; // remet en forme (gras, etc.) une fois la frappe finie
+                i++;
+                setTimeout(next, d.isIn ? 180 : 260);
+              }
+            })();
+          }
+          setTimeout(next, 260);
+        })();
+        </script>
+      </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="reveal">
+    <p class="prompt">cat about.md</p>
+    <h2><span class="n">01.</span> à propos</h2>
+    <p>Après un BTS CIEL, je développe des applications full-stack avec un intérêt particulier pour la sécurité et le chiffrement. J'aime comprendre et reconstruire les mécanismes (ECDH, zero-knowledge, chiffrement de bout en bout) plutôt que d'utiliser une solution sans en examiner le fonctionnement.</p>
+    <p class="muted">Objectif actuel : construire un portfolio de projets techniques solides, pas des clones de tutoriels.</p>
+  </section>
+
+  <section id="timeline" class="reveal">
+    <p class="prompt">git log --oneline --graph</p>
+    <h2><span class="n">02.</span> parcours</h2>
+    <ol class="timeline">
+      <li class="timeline-item current">
+        <span class="timeline-date">en cours</span>
+        <p class="timeline-title">Aegis — messagerie chiffrée E2E</p>
+        <p class="timeline-desc">Échange de clés publiques par ECDH, comptes et temps réel avec Supabase. Prochaine étape : interface multi-appareils et vérification d'identité.</p>
+      </li>
+      <li class="timeline-item">
+        <time class="timeline-date" datetime="2026">2026</time>
+        <p class="timeline-title">Whisprr déployé</p>
+        <p class="timeline-desc">Partage de secrets zero-knowledge livré et testé de bout en bout, en production sur Vercel.</p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-date">avant</span>
+        <p class="timeline-title">BTS CIEL</p>
+        <p class="timeline-desc">Cybersécurité, Informatique et réseaux Électroniques — le socle réseau/sécurité qui oriente mes projets perso aujourd'hui.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section id="skills" class="reveal">
+    <p class="prompt">ls -la ./stack</p>
+    <h2><span class="n">03.</span> stack &amp; outils</h2>
+    <div class="ls">
+      <div class="ls-row"><span class="ls-tag">frontend</span><span class="ls-val"><b>Next.js</b> (App Router), <b>React</b>, <b>TypeScript</b></span></div>
+      <div class="ls-row"><span class="ls-tag">crypto</span><span class="ls-val"><b>Web Crypto API</b> (AES-GCM), <b>ECDH</b></span></div>
+      <div class="ls-row"><span class="ls-tag">backend</span><span class="ls-val"><b>Supabase</b> (Auth, Postgres, Realtime), <b>Upstash Redis</b></span></div>
+      <div class="ls-row"><span class="ls-tag">deploy</span><span class="ls-val"><b>Vercel</b></span></div>
+      <div class="ls-row"><span class="ls-tag">profil</span><span class="ls-val">full-stack orienté sécurité — du réseau à l'interface</span></div>
+    </div>
+  </section>
+
+  <section id="projects" class="reveal">
+    <p class="prompt">ls -la ./projects</p>
+    <h2><span class="n">04.</span> projets</h2>
+    <div class="projects">
+
+      <article class="card">
+        <div class="card-bar">
+          <span class="fname">whisprr/README.md</span>
+          <span class="badge live">déployé</span>
+        </div>
+        <div class="card-body">
+          <h3>Whisprr</h3>
+          <div class="shot"><img src="images/whisprr.png" alt="Interface de Whisprr : création d'un secret chiffré avec expiration et auto-destruction" loading="lazy" width="1162" height="895"></div>
+          <p>Partage de secrets en zero-knowledge : le serveur ne voit jamais le contenu en clair. Chiffrement fait côté client avec la Web Crypto API avant tout envoi.</p>
+          <details class="details">
+            <summary>voir les détails techniques</summary>
+            <div class="details-body">
+              <p><strong>Comment ça marche :</strong> le secret est chiffré dans le navigateur (AES-GCM via Web Crypto) avant l'envoi ; le serveur ne stocke qu'un blob chiffré dans Upstash Redis et ne détient jamais la clé en clair. <!-- TODO: précise ici comment la clé de déchiffrement est transmise au destinataire (ex: fragment d'URL #, jamais envoyé au serveur) --></p>
+              <p><strong>Limites connues :</strong> quiconque obtient le lien avant expiration peut lire le secret — il n'y a pas de vérification d'identité du destinataire. Le lien est un canal de confidentialité, pas d'authentification.</p>
+              <!-- TODO: complète avec ce que tu as réalisé toi-même, les difficultés rencontrées, et ce qui reste à faire -->
+            </div>
+          </details>
+          <div class="stack">
+            <span class="chip">Next.js 16</span>
+            <span class="chip">React 19</span>
+            <span class="chip">TypeScript</span>
+            <span class="chip">Web Crypto (AES-GCM)</span>
+            <span class="chip">Upstash Redis</span>
+          </div>
+          <div class="links">
+            <a href="https://github.com/Ferr0zzz/Whisprr" target="_blank" rel="noopener">→ code</a>
+            <a href="#" target="_blank" rel="noopener">→ démo live</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-bar">
+          <span class="fname">aegis/README.md</span>
+          <span class="badge wip">en cours</span>
+        </div>
+        <div class="card-body">
+          <h3>Aegis</h3>
+          <div class="shot wip">
+            <svg viewBox="0 0 700 320" role="img" aria-label="Aperçu de l'interface d'Aegis, encore en cours de développement">
+              <rect x="1" y="1" width="698" height="318" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+              <rect x="1" y="1" width="150" height="318" fill="var(--surface-2)"/>
+              <rect x="20" y="24" width="90" height="10" rx="3" fill="var(--border)"/>
+              <rect x="20" y="60" width="110" height="34" rx="6" fill="var(--border)" opacity="0.6"/>
+              <rect x="20" y="104" width="110" height="34" rx="6" fill="var(--border)" opacity="0.4"/>
+              <rect x="20" y="148" width="110" height="34" rx="6" fill="var(--border)" opacity="0.4"/>
+              <rect x="170" y="20" width="510" height="36" rx="6" fill="var(--surface-2)"/>
+              <rect x="190" y="90" width="220" height="16" rx="4" fill="var(--border)"/>
+              <rect x="190" y="118" width="320" height="16" rx="4" fill="var(--border)" opacity="0.7"/>
+              <rect x="360" y="150" width="240" height="16" rx="4" fill="var(--accent-dim)" opacity="0.55"/>
+              <rect x="190" y="182" width="180" height="16" rx="4" fill="var(--border)" opacity="0.5"/>
+              <rect x="170" y="270" width="510" height="30" rx="6" fill="var(--surface-2)"/>
+              <rect x="1" y="1" width="698" height="318" rx="8" fill="none" stroke="var(--accent-dim)" stroke-dasharray="6 5" opacity="0.6"/>
+            </svg>
+            <span class="wip-badge">🚧 interface en cours de développement</span>
+          </div>
+          <ul class="status-list">
+            <li><span class="dot-ok" aria-hidden="true"></span>fonctionne déjà : messages privés 1-à-1 chiffrés (échange de clé ECDH)</li>
+            <li><span class="dot-todo" aria-hidden="true"></span>prévu : salons multi-utilisateurs, vérification d'identité, multi-appareils</li>
+          </ul>
+          <p>Messagerie chiffrée de bout en bout façon Discord (serveurs/salons). Échange de clés publiques par ECDH, chiffrement direct des messages privés, temps réel.</p>
+          <details class="details">
+            <summary>voir les détails techniques</summary>
+            <div class="details-body">
+              <p><strong>État actuel :</strong> messages privés 1-à-1 chiffrés via un échange de clé ECDH direct entre les deux comptes. Supabase gère les comptes, le stockage et le canal temps réel.</p>
+              <p><strong>Limite importante (en l'état) :</strong> ECDH protège l'échange contre une écoute passive, mais ne suffit pas seul à garantir l'identité de l'interlocuteur — sans vérification de clé publique (empreinte affichée, TOFU...), un serveur malveillant pourrait en théorie substituer une clé (attaque de l'homme du milieu). La vérification d'identité est prévue mais pas encore implémentée.</p>
+              <p><strong>À venir :</strong> vérification d'identité, chiffrement de salon multi-utilisateurs, support multi-appareils.</p>
+              <!-- TODO: complète avec ce que tu as réalisé toi-même et les difficultés rencontrées -->
+            </div>
+          </details>
+          <div class="stack">
+            <span class="chip">Next.js</span>
+            <span class="chip">Supabase (Auth/Postgres/Realtime)</span>
+            <span class="chip">ECDH</span>
+          </div>
+          <div class="links">
+            <a href="#" target="_blank" rel="noopener">→ code</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="contact" class="reveal">
+    <p class="prompt">cat contact.txt</p>
+    <h2><span class="n">05.</span> contact</h2>
+    <div class="term">
+      <div class="term-bar">
+        <span class="dot" style="background:#ff5c5c"></span>
+        <span class="dot" style="background:#ffb454"></span>
+        <span class="dot" style="background:#4dff88"></span>
+        <span class="id">session — /home/feroz</span>
+      </div>
+      <div class="term-body">
+        <p class="line in">send message</p>
+        <p class="line out">Envie de discuter d'un projet, d'une opportunité ou de sécurité applicative ?</p>
+        <p class="line out">
+          <a href="mailto:ton.email@example.com" id="email-link">ton.email@example.com</a><button class="copy-btn" id="copy-email" type="button">copier</button> ·
+          <a href="https://github.com/Ferr0zzz" target="_blank" rel="noopener">GitHub</a> ·
+          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="playground" class="reveal">
+    <p class="prompt">./explore.sh</p>
+    <h2><span class="n">06.</span> terminal interactif</h2>
+    <div class="term playground">
+      <div class="term-bar">
+        <span class="dot" style="background:#ff5c5c"></span>
+        <span class="dot" style="background:#ffb454"></span>
+        <span class="dot" style="background:#4dff88"></span>
+        <span class="id">sandbox — tape "help"</span>
+      </div>
+      <div class="term-body">
+        <div id="term-output" role="log" aria-live="polite" aria-relevant="additions">
+          <p class="line out faint">Terminal de démo. Tape une commande pour voir ce qu'il y a dedans.</p>
+        </div>
+        <div class="term-input-row">
+          <span class="prompt-sign">$</span>
+          <input id="term-input" type="text" autocomplete="off" spellcheck="false" aria-label="Commande du terminal">
+        </div>
+      </div>
+    </div>
+    <p class="term-hint muted">essaie : help · whoami · projects · log · contact · sudo hire-me</p>
+  </section>
+
+</main>
+
+<footer>
+  <p class="muted">Feroz — Développeur full-stack orienté sécurité, BTS CIEL. Portfolio en HTML/CSS/JS pur, sans framework.</p>
+</footer>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Retour en haut">↑</button>
+
+<script src="js/data.js"></script>
+<script src="js/terminal.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/clipboard.js"></script>
+<script src="js/scroll.js"></script>
+<script src="js/reveal.js"></script>
+</body>
+</html>
