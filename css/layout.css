@@ -9,14 +9,15 @@ header {
 }
 header .wrap { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; }
 .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.logo { font-weight: 700; color: var(--text); text-decoration: none; font-size: 0.95rem; }
+.logo { font-weight: 700; color: var(--text); text-decoration: none; font-size: 0.95rem; letter-spacing: 0.04em; }
+.logo:hover { color: var(--accent); }
 .logo .caret { color: var(--accent); }
 nav {
   display: flex; gap: 18px; font-size: 0.85rem; min-width: 0;
   overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
 }
 nav::-webkit-scrollbar { display: none; }
-nav a { color: var(--muted); text-decoration: none; white-space: nowrap; }
+nav a { color: var(--muted); text-decoration: none; white-space: nowrap; transition: color .15s ease; }
 nav a:hover, nav a.active { color: var(--accent); }
 header .wrap.nav-overflows::after {
   content: ""; position: absolute; top: 14px; bottom: 14px; right: 20px; width: 28px;

@@ -2,6 +2,8 @@
   nav { gap: 12px; font-size: 0.78rem; }
   .ls-row { grid-template-columns: 76px 1fr; }
   .card-bar { flex-wrap: wrap; gap: 6px; }
+  .contact-shell { padding: 18px 14px; }
+  .contact-card { padding: 14px 14px; }
 }
 
 @media (max-width: 420px) {
@@ -15,4 +17,5 @@
   .card-bar .fname { font-size: 0.78rem; }
   .wip-badge { font-size: 0.62rem; padding: 3px 8px; }
   .back-to-top { width: 36px; height: 36px; right: 12px; }
+  .contact-actions { flex-wrap: wrap; }
 }

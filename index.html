@@ -11,6 +11,11 @@
 <meta property="og:type" content="website">
 <!-- TODO: une fois déployé sur un vrai domaine, ajoute og:url (l'adresse du site) et og:image (une image d'aperçu, ~1200x630px) -->
 <meta name="twitter:card" content="summary">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Kn3roHo/OHZeRmbZrpTWUtvgebxm0fLfNp7k5rrHBwQ='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#090c09">
+<!-- Remarque : frame-ancestors est ignoré par les navigateurs quand la CSP passe par une balise <meta> (seul un en-tête HTTP le fait respecter).
+     Si l'hébergeur (Vercel/Netlify) permet de définir des en-têtes, ajoute-y aussi : X-Frame-Options: DENY et Strict-Transport-Security. -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,20 +48,20 @@
 
 <main class="wrap" id="top">
 
-  <section id="hero" style="padding-top: 56px;">
+  <section id="hero" class="hero-pad-top">
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">BTS CIEL · développeur full-stack orienté sécurité</p>
         <h1 class="hero-title">Je construis des systèmes de <span class="glow">chiffrement</span> qu'on peut vraiment comprendre.</h1>
-        <p class="hero-sub">Actuellement en recherche d'opportunités en <strong>développement</strong> ou en <strong>cybersécurité</strong>.</p>
+        <p class="hero-sub">Actuellement en recherche d'un poste en <strong>CDD</strong> ou <strong>CDI</strong>, en développement ou en cybersécurité.</p>
         <a class="cta" href="#contact">→ me contacter</a>
       </div>
       <div class="hero-term">
         <div class="term">
       <div class="term-bar">
-        <span class="dot" style="background:#ff5c5c"></span>
-        <span class="dot" style="background:#ffb454"></span>
-        <span class="dot" style="background:#4dff88"></span>
+        <span class="dot dot-red"></span>
+        <span class="dot dot-amber"></span>
+        <span class="dot dot-green"></span>
         <span class="id">session — /home/feroz</span>
       </div>
       <div class="term-body" id="hero-body">
@@ -69,51 +74,6 @@
         <p class="line out">Je construis des projets autour du chiffrement et de la sécurité, de zéro, pour comprendre comment ça marche vraiment.</p>
         <p class="line in">uptime</p>
         <p class="line out stats-line"><b>2</b> projets actifs · <b>1</b> déployé · dernière mise à jour : sept. 2026<span class="cursor"></span></p>
-        <script>
-        (function () {
-          var container = document.getElementById('hero-body');
-          if (!container) return;
-          var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (reduce) { container.classList.remove('hero-anim'); return; }
-
-          var lines = Array.prototype.slice.call(container.querySelectorAll('.line'));
-          var last = lines[lines.length - 1];
-          var cursor = last ? last.querySelector('.cursor') : null;
-          if (cursor) cursor.remove();
-
-          var data = lines.map(function (el) {
-            var isIn = el.classList.contains('in');
-            return { el: el, isIn: isIn, plain: el.textContent, html: el.innerHTML };
-          });
-          data.forEach(function (d) { d.el.textContent = ''; });
-
-          var i = 0;
-          function next() {
-            if (i >= data.length) {
-              if (cursor && last) last.appendChild(cursor);
-              container.classList.remove('hero-anim');
-              return;
-            }
-            var d = data[i];
-            d.el.style.visibility = 'visible';
-            var chars = d.plain.split('');
-            var idx = 0;
-            (function typeChar() {
-              d.el.textContent = chars.slice(0, idx + 1).join('');
-              idx++;
-              if (idx < chars.length) {
-                var delay = d.isIn ? 26 + Math.random() * 34 : 9 + Math.random() * 14;
-                setTimeout(typeChar, delay);
-              } else {
-                d.el.innerHTML = d.html; // remet en forme (gras, etc.) une fois la frappe finie
-                i++;
-                setTimeout(next, d.isIn ? 180 : 260);
-              }
-            })();
-          }
-          setTimeout(next, 260);
-        })();
-        </script>
       </div>
         </div>
       </div>
@@ -178,9 +138,10 @@
           <details class="details">
             <summary>voir les détails techniques</summary>
             <div class="details-body">
-              <p><strong>Comment ça marche :</strong> le secret est chiffré dans le navigateur (AES-GCM via Web Crypto) avant l'envoi ; le serveur ne stocke qu'un blob chiffré dans Upstash Redis et ne détient jamais la clé en clair. <!-- TODO: précise ici comment la clé de déchiffrement est transmise au destinataire (ex: fragment d'URL #, jamais envoyé au serveur) --></p>
-              <p><strong>Limites connues :</strong> quiconque obtient le lien avant expiration peut lire le secret — il n'y a pas de vérification d'identité du destinataire. Le lien est un canal de confidentialité, pas d'authentification.</p>
-              <!-- TODO: complète avec ce que tu as réalisé toi-même, les difficultés rencontrées, et ce qui reste à faire -->
+              <p><strong>Comment ça marche :</strong> à la création, le navigateur génère une clé AES-GCM 256 bits, chiffre le secret, puis envoie au serveur uniquement le texte chiffré et l'IV — la clé est ajoutée au fragment (<code>#</code>) du lien, qui n'est jamais transmis au serveur dans une requête HTTP. À l'ouverture, le destinataire récupère le texte chiffré via l'API, lit la clé dans <code>window.location.hash</code>, et déchiffre localement. Le serveur ne stocke que l'identifiant, le texte chiffré, l'IV et les paramètres d'expiration/destruction — jamais la clé ni le message en clair (chiffrement dans <code>crypto.ts</code>, persistance dans <code>store.ts</code>).</p>
+              <p><strong>Ce que j'ai fait :</strong> conception du flow de bout en bout (saisie → chiffrement client → génération du lien → expiration/auto-destruction côté serveur), intégration de la Web Crypto API et du stockage Upstash Redis, déploiement sur Vercel et tests bout en bout.</p>
+              <p><strong>Décision technique :</strong> projet structuré sans dossier <code>src/</code> (le dossier <code>app/</code> du App Router reste à la racine) — un choix volontairement simple pour un projet de cette taille plutôt qu'une arborescence plus lourde.</p>
+              <p><strong>Limites connues :</strong> le lien complet (fragment compris) donne accès au secret — à partager uniquement avec le destinataire prévu, comme un mot de passe ; il n'y a pas de vérification d'identité, le lien est un canal de confidentialité, pas d'authentification. Avec l'auto-destruction activée, le serveur supprime le secret dès que la requête de lecture est traitée, avant même la fin du déchiffrement côté client : un lien dont la clé serait invalide peut donc quand même « consommer » le secret.</p>
             </div>
           </details>
           <div class="stack">
@@ -191,8 +152,8 @@
             <span class="chip">Upstash Redis</span>
           </div>
           <div class="links">
-            <a href="https://github.com/Ferr0zzz/Whisprr" target="_blank" rel="noopener">→ code</a>
-            <a href="#" target="_blank" rel="noopener">→ démo live</a>
+            <a href="https://github.com/Ferr0zzz/Whisprr" target="_blank" rel="noopener noreferrer">→ code</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">→ démo live</a>
           </div>
         </div>
       </article>
@@ -231,9 +192,11 @@
             <summary>voir les détails techniques</summary>
             <div class="details-body">
               <p><strong>État actuel :</strong> messages privés 1-à-1 chiffrés via un échange de clé ECDH direct entre les deux comptes. Supabase gère les comptes, le stockage et le canal temps réel.</p>
+              <p><strong>Ce que j'ai fait :</strong> mise en place des comptes et de l'échange de clés publiques, du chiffrement direct des messages 1-à-1, et du canal temps réel avec Supabase Realtime — suivant un découpage en 4 semaines (clés/comptes → stockage/temps réel → interface de chat → vérification d'identité/déploiement, encore en cours).</p>
+              <p><strong>Décision technique :</strong> pour la v1, ECDH est fait directement entre les deux comptes, sans passer par un système de clé de salon "wrappée" — plus simple à livrer d'abord, quitte à le remplacer quand les salons multi-utilisateurs arriveront (une clé de salon partagée ne se prête pas au même schéma).</p>
+              <p><strong>Difficulté résolue :</strong> Supabase a renommé son mécanisme de clé publique (l'ancienne <code>ANON_KEY</code> devient <code>PUBLISHABLE_KEY</code>) — la doc et les tutoriels plus anciens ne correspondaient plus, il a fallu adapter la configuration des variables d'environnement en conséquence.</p>
               <p><strong>Limite importante (en l'état) :</strong> ECDH protège l'échange contre une écoute passive, mais ne suffit pas seul à garantir l'identité de l'interlocuteur — sans vérification de clé publique (empreinte affichée, TOFU...), un serveur malveillant pourrait en théorie substituer une clé (attaque de l'homme du milieu). La vérification d'identité est prévue mais pas encore implémentée.</p>
               <p><strong>À venir :</strong> vérification d'identité, chiffrement de salon multi-utilisateurs, support multi-appareils.</p>
-              <!-- TODO: complète avec ce que tu as réalisé toi-même et les difficultés rencontrées -->
             </div>
           </details>
           <div class="stack">
@@ -242,7 +205,7 @@
             <span class="chip">ECDH</span>
           </div>
           <div class="links">
-            <a href="#" target="_blank" rel="noopener">→ code</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">→ code</a>
           </div>
         </div>
       </article>
@@ -253,21 +216,37 @@
   <section id="contact" class="reveal">
     <p class="prompt">cat contact.txt</p>
     <h2><span class="n">05.</span> contact</h2>
-    <div class="term">
-      <div class="term-bar">
-        <span class="dot" style="background:#ff5c5c"></span>
-        <span class="dot" style="background:#ffb454"></span>
-        <span class="dot" style="background:#4dff88"></span>
-        <span class="id">session — /home/feroz</span>
+    <div class="contact-shell">
+      <div class="contact-copy">
+        <p class="contact-kicker">disponible pour un projet</p>
+        <h3>Parlons sécurité, produit et code.</h3>
+        <p>Envie de discuter d'un projet, d'une opportunité, d'un stage ou d'un sujet autour de la cybersécurité applicative ? Je réponds souvent rapidement et j'aime les échanges concrets.</p>
+        <div class="contact-status">
+          <span class="status-pill"><span class="pulse" aria-hidden="true"></span>Disponible</span>
+        </div>
       </div>
-      <div class="term-body">
-        <p class="line in">send message</p>
-        <p class="line out">Envie de discuter d'un projet, d'une opportunité ou de sécurité applicative ?</p>
-        <p class="line out">
-          <a href="mailto:ton.email@example.com" id="email-link">ton.email@example.com</a><button class="copy-btn" id="copy-email" type="button">copier</button> ·
-          <a href="https://github.com/Ferr0zzz" target="_blank" rel="noopener">GitHub</a> ·
-          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
-        </p>
+
+      <div class="contact-grid">
+        <div class="contact-card primary" id="email-card">
+          <span class="contact-label">E-mail</span>
+          <strong class="contact-email-value" data-email="killyan.sic@gmail.com" data-masked="k***@g***.com">k***@g***.com</strong>
+          <div class="contact-actions">
+            <button class="mini-action reveal-email" id="reveal-email" type="button">révéler</button>
+            <button class="mini-action" id="copy-email" type="button" aria-label="Copier l'adresse e-mail">copier</button>
+          </div>
+        </div>
+
+        <a class="contact-card" href="https://github.com/Ferr0zzz" target="_blank" rel="noopener noreferrer">
+          <span class="contact-label">GitHub</span>
+          <strong>Ferr0zzz</strong>
+          <small>Code &amp; prototypes</small>
+        </a>
+
+        <a class="contact-card" href="https://www.linkedin.com/in/killyan-sichel-8899a839a/" target="_blank" rel="noopener noreferrer">
+          <span class="contact-label">LinkedIn</span>
+          <strong>Mon profil</strong>
+          <small>Réseau / opportunités</small>
+        </a>
       </div>
     </div>
   </section>
@@ -277,9 +256,9 @@
     <h2><span class="n">06.</span> terminal interactif</h2>
     <div class="term playground">
       <div class="term-bar">
-        <span class="dot" style="background:#ff5c5c"></span>
-        <span class="dot" style="background:#ffb454"></span>
-        <span class="dot" style="background:#4dff88"></span>
+        <span class="dot dot-red"></span>
+        <span class="dot dot-amber"></span>
+        <span class="dot dot-green"></span>
         <span class="id">sandbox — tape "help"</span>
       </div>
       <div class="term-body">
@@ -292,7 +271,7 @@
         </div>
       </div>
     </div>
-    <p class="term-hint muted">essaie : help · whoami · projects · log · contact · sudo hire-me</p>
+    <p class="term-hint muted">essaie : help · stack · whisprr · aegis · availability · contact · sudo hire-me</p>
   </section>
 
 </main>
@@ -303,6 +282,7 @@
 
 <button class="back-to-top" id="back-to-top" type="button" aria-label="Retour en haut">↑</button>
 
+<script src="js/hero-typing.js"></script>
 <script src="js/data.js"></script>
 <script src="js/terminal.js"></script>
 <script src="js/navigation.js"></script>

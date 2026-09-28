@@ -25,7 +25,7 @@
     const cmd = raw.trim().toLowerCase();
     if (!cmd) return;
 
-    printLine("$ " + raw, "in");
+    printLine(raw, "in");
 
     if (cmd === "clear") {
       output.innerHTML = "";

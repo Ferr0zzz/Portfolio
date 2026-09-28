@@ -19,3 +19,8 @@ footer .muted { font-size: 0.8rem; }
 .reveal.reveal-armed { opacity: 0; transform: translateY(18px); }
 .reveal.reveal-armed.is-visible { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) { .reveal.reveal-armed { opacity: 1; transform: none; transition: none; } }
+
+.dot-red { background: #ff5c5c; }
+.dot-amber { background: #ffb454; }
+.dot-green { background: #4dff88; }
+.hero-pad-top { padding-top: 56px; }
