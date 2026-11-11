@@ -11,15 +11,11 @@
 <meta property="og:type" content="website">
 <!-- TODO: une fois déployé sur un vrai domaine, ajoute og:url (l'adresse du site) et og:image (une image d'aperçu, ~1200x630px) -->
 <meta name="twitter:card" content="summary">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Kn3roHo/OHZeRmbZrpTWUtvgebxm0fLfNp7k5rrHBwQ='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-Kn3roHo/OHZeRmbZrpTWUtvgebxm0fLfNp7k5rrHBwQ='; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; img-src 'self'; font-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; media-src 'none'; worker-src 'none'; manifest-src 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#090c09">
-<!-- Remarque : frame-ancestors est ignoré par les navigateurs quand la CSP passe par une balise <meta> (seul un en-tête HTTP le fait respecter).
-     Si l'hébergeur (Vercel/Netlify) permet de définir des en-têtes, ajoute-y aussi : X-Frame-Options: DENY et Strict-Transport-Security. -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- frame-ancestors est configuré en en-tête HTTP dans vercel.json et _headers. -->
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
@@ -135,6 +131,7 @@
           <h3>Whisprr</h3>
           <div class="shot"><img src="images/whisprr.png" alt="Interface de Whisprr : création d'un secret chiffré avec expiration et auto-destruction" loading="lazy" width="1162" height="895"></div>
           <p>Partage de secrets en zero-knowledge : le serveur ne voit jamais le contenu en clair. Chiffrement fait côté client avec la Web Crypto API avant tout envoi.</p>
+          <p class="project-contribution"><strong>Ma contribution :</strong> conception du flux complet, chiffrement AES-GCM dans le navigateur, stockage avec Upstash Redis et déploiement sur Vercel.</p>
           <details class="details">
             <summary>voir les détails techniques</summary>
             <div class="details-body">
@@ -188,6 +185,7 @@
             <li><span class="dot-todo" aria-hidden="true"></span>prévu : salons multi-utilisateurs, vérification d'identité, multi-appareils</li>
           </ul>
           <p>Messagerie chiffrée de bout en bout façon Discord (serveurs/salons). Échange de clés publiques par ECDH, chiffrement direct des messages privés, temps réel.</p>
+          <p class="project-contribution"><strong>Ma contribution :</strong> mise en place des comptes, de l'échange de clés ECDH et du chat privé 1-à-1 chiffré avec Supabase Realtime.</p>
           <details class="details">
             <summary>voir les détails techniques</summary>
             <div class="details-body">
@@ -227,14 +225,11 @@
       </div>
 
       <div class="contact-grid">
-        <div class="contact-card primary" id="email-card">
+        <button class="contact-card" id="send-email" type="button">
           <span class="contact-label">E-mail</span>
-          <strong class="contact-email-value" data-email="killyan.sic@gmail.com" data-masked="k***@g***.com">k***@g***.com</strong>
-          <div class="contact-actions">
-            <button class="mini-action reveal-email" id="reveal-email" type="button">révéler</button>
-            <button class="mini-action" id="copy-email" type="button" aria-label="Copier l'adresse e-mail">copier</button>
-          </div>
-        </div>
+          <strong>Envoyer un e-mail</strong>
+          <small>Ouvrir votre application de messagerie</small>
+        </button>
 
         <a class="contact-card" href="https://github.com/Ferr0zzz" target="_blank" rel="noopener noreferrer">
           <span class="contact-label">GitHub</span>
@@ -286,7 +281,7 @@
 <script src="js/data.js"></script>
 <script src="js/terminal.js"></script>
 <script src="js/navigation.js"></script>
-<script src="js/clipboard.js"></script>
+<script src="js/contact.js"></script>
 <script src="js/scroll.js"></script>
 <script src="js/reveal.js"></script>
 </body>

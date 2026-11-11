@@ -62,8 +62,7 @@ const TERMINAL_DATA = {
   ],
   contact: [
     "Pour une opportunité, une collaboration ou parler sécurité applicative :",
-    "ouvre la section contact pour accéder à l'e-mail et aux profils publics.",
-    "L'adresse e-mail reste masquée tant que tu ne choisis pas de l'afficher.",
+    "utilise le lien e-mail ou consulte les profils publics dans la section contact.",
   ],
   availability: [
     "Je recherche actuellement un poste en CDD ou CDI.",

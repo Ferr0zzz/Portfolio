@@ -1,6 +1,6 @@
 // Anime le terminal du hero comme si chaque commande/résultat était tapé.
-// Le conteneur est masqué en amont par un petit script inline dans portfolio.html,
-// exécuté avant ce fichier dans index.html pour éviter tout flash de contenu non animé.
+// Le conteneur est masqué en amont par un petit script inline dans index.html
+// pour éviter tout flash de contenu non animé.
 (function () {
   var container = document.getElementById('hero-body');
   if (!container) return;
@@ -18,7 +18,12 @@
 
   var data = lines.map(function (el) {
     var isIn = el.classList.contains('in');
-    return { el: el, isIn: isIn, plain: el.textContent, html: el.innerHTML };
+    return {
+      el: el,
+      isIn: isIn,
+      plain: el.textContent,
+      content: Array.from(el.childNodes, (node) => node.cloneNode(true))
+    };
   });
 
   data.forEach(function (d) {
@@ -34,7 +39,7 @@
     }
 
     var d = data[i];
-    d.el.style.visibility = 'visible';
+    d.el.classList.add('typing-visible');
     var chars = d.plain.split('');
     var idx = 0;
 
@@ -46,7 +51,7 @@
         var delay = d.isIn ? 26 + Math.random() * 34 : 9 + Math.random() * 14;
         setTimeout(typeChar, delay);
       } else {
-        d.el.innerHTML = d.html;
+        d.el.replaceChildren(...d.content);
         i++;
         setTimeout(next, d.isIn ? 180 : 260);
       }

@@ -28,7 +28,7 @@
     printLine(raw, "in");
 
     if (cmd === "clear") {
-      output.innerHTML = "";
+      output.replaceChildren();
       return;
     }
 
