@@ -1,62 +1,57 @@
-// Anime le terminal du hero comme si chaque commande/résultat était tapé.
-// Le conteneur est masqué en amont par un petit script inline dans index.html
-// pour éviter tout flash de contenu non animé.
 (function () {
-  var container = document.getElementById('hero-body');
+  const container = document.getElementById("hero-body");
   if (!container) return;
 
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) {
-    container.classList.remove('hero-anim');
-    return;
-  }
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return;
 
-  var lines = Array.prototype.slice.call(container.querySelectorAll('.line'));
-  var last = lines[lines.length - 1];
-  var cursor = last ? last.querySelector('.cursor') : null;
+  const lines = Array.from(container.querySelectorAll(".line"));
+  const last = lines[lines.length - 1];
+  const cursor = last && last.querySelector(".cursor");
   if (cursor) cursor.remove();
 
-  var data = lines.map(function (el) {
-    var isIn = el.classList.contains('in');
-    return {
-      el: el,
-      isIn: isIn,
-      plain: el.textContent,
-      content: Array.from(el.childNodes, (node) => node.cloneNode(true))
-    };
+  const content = lines.map((element) => ({
+    element,
+    isCommand: element.classList.contains("in"),
+    text: element.textContent,
+    nodes: Array.from(element.childNodes, (node) => node.cloneNode(true)),
+  }));
+
+  container.classList.add("hero-anim");
+  content.forEach(({ element }) => {
+    element.textContent = "";
   });
 
-  data.forEach(function (d) {
-    d.el.textContent = '';
-  });
-
-  var i = 0;
-  function next() {
-    if (i >= data.length) {
+  let lineIndex = 0;
+  function typeNextLine() {
+    if (lineIndex >= content.length) {
       if (cursor && last) last.appendChild(cursor);
-      container.classList.remove('hero-anim');
+      container.classList.remove("hero-anim");
       return;
     }
 
-    var d = data[i];
-    d.el.classList.add('typing-visible');
-    var chars = d.plain.split('');
-    var idx = 0;
+    const line = content[lineIndex];
+    const characters = Array.from(line.text);
+    let characterIndex = 0;
+    line.element.classList.add("typing-visible");
 
-    (function typeChar() {
-      d.el.textContent = chars.slice(0, idx + 1).join('');
-      idx++;
+    function typeNextCharacter() {
+      line.element.textContent = characters.slice(0, characterIndex + 1).join("");
+      characterIndex += 1;
 
-      if (idx < chars.length) {
-        var delay = d.isIn ? 26 + Math.random() * 34 : 9 + Math.random() * 14;
-        setTimeout(typeChar, delay);
-      } else {
-        d.el.replaceChildren(...d.content);
-        i++;
-        setTimeout(next, d.isIn ? 180 : 260);
+      if (characterIndex < characters.length) {
+        const delay = line.isCommand ? 26 + Math.random() * 34 : 9 + Math.random() * 14;
+        setTimeout(typeNextCharacter, delay);
+        return;
       }
-    })();
+
+      line.element.replaceChildren(...line.nodes);
+      lineIndex += 1;
+      setTimeout(typeNextLine, line.isCommand ? 180 : 260);
+    }
+
+    typeNextCharacter();
   }
 
-  setTimeout(next, 260);
+  setTimeout(typeNextLine, 260);
 })();

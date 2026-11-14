@@ -1,11 +1,3 @@
-.playground .term-body { padding-bottom: 16px; }
-#term-output .line { margin-bottom: 6px; }
-#term-output .out.faint { color: var(--muted); }
-.term-input-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.term-input-row .prompt-sign { color: var(--accent-dim); }
-.term-input-row input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-family: inherit; font-size: 0.92rem; caret-color: var(--accent); }
-.term-hint { margin-top: 10px; font-size: 0.76rem; }
-
 .copy-btn { font: inherit; font-size: 0.78rem; color: var(--accent-dim); background: transparent; border: 1px solid var(--border); border-radius: 4px; padding: 3px 9px; margin-left: 10px; cursor: pointer; }
 .copy-btn:hover { border-color: var(--accent-dim); color: var(--accent); }
 .copy-btn[data-copied="true"] { color: var(--accent); border-color: var(--accent); }
