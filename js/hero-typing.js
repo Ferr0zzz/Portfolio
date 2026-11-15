@@ -40,18 +40,18 @@
       characterIndex += 1;
 
       if (characterIndex < characters.length) {
-        const delay = line.isCommand ? 26 + Math.random() * 34 : 9 + Math.random() * 14;
+        const delay = line.isCommand ? 18 + Math.random() * 16 : 7 + Math.random() * 8;
         setTimeout(typeNextCharacter, delay);
         return;
       }
 
       line.element.replaceChildren(...line.nodes);
       lineIndex += 1;
-      setTimeout(typeNextLine, line.isCommand ? 180 : 260);
+      setTimeout(typeNextLine, line.isCommand ? 100 : 150);
     }
 
     typeNextCharacter();
   }
 
-  setTimeout(typeNextLine, 260);
+  setTimeout(typeNextLine, 120);
 })();

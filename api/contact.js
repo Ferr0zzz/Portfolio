@@ -1,6 +1,9 @@
 "use strict";
 
 const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/";
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 5;
+const requestsByAddress = new Map();
 
 function respond(response, status, payload) {
   return response.status(status).json(payload);
@@ -27,6 +30,45 @@ function isSameOrigin(request) {
 
 function isText(value, maxLength) {
   return typeof value === "string" && value.trim().length > 0 && value.length <= maxLength;
+}
+
+function getClientAddress(request) {
+  const forwardedFor = request.headers["x-forwarded-for"];
+  if (typeof forwardedFor === "string" && forwardedFor.trim()) {
+    return forwardedFor.split(",")[0].trim();
+  }
+
+  return request.socket && request.socket.remoteAddress
+    ? request.socket.remoteAddress
+    : "unknown";
+}
+
+function getRetryAfter(address, now = Date.now()) {
+  const recentRequests = (requestsByAddress.get(address) || [])
+    .filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
+
+  if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
+    requestsByAddress.set(address, recentRequests);
+    return Math.max(1, Math.ceil((recentRequests[0] + RATE_LIMIT_WINDOW_MS - now) / 1000));
+  }
+
+  recentRequests.push(now);
+  requestsByAddress.set(address, recentRequests);
+
+  if (requestsByAddress.size > 1000) {
+    for (const [knownAddress, timestamps] of requestsByAddress) {
+      if (!timestamps.length || timestamps[timestamps.length - 1] + RATE_LIMIT_WINDOW_MS <= now) {
+        requestsByAddress.delete(knownAddress);
+      }
+    }
+
+    if (requestsByAddress.size > 1000) {
+      const oldestAddress = requestsByAddress.keys().next().value;
+      if (oldestAddress) requestsByAddress.delete(oldestAddress);
+    }
+  }
+
+  return 0;
 }
 
 module.exports = async function handler(request, response) {
@@ -67,6 +109,12 @@ module.exports = async function handler(request, response) {
     !isText(message, 5000)
   ) {
     return respond(response, 400, { error: "Vérifie les champs et réessaie." });
+  }
+
+  const retryAfter = getRetryAfter(getClientAddress(request));
+  if (retryAfter) {
+    response.setHeader("Retry-After", String(retryAfter));
+    return respond(response, 429, { error: "Trop de messages ont été envoyés. Réessaie dans quelques minutes." });
   }
 
   const recipient = process.env.CONTACT_TO;

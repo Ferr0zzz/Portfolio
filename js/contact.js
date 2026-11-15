@@ -15,15 +15,29 @@
     status.dataset.state = "";
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const result = await response.json();
+      let response;
+      try {
+        response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+      } catch {
+        throw new Error("Impossible de joindre le formulaire. Vérifie ta connexion et réessaie.");
+      }
 
-      if (!response.ok) {
-        throw new Error(result.error || "L’envoi a échoué. Réessaie dans quelques instants.");
+      let result;
+      try {
+        result = await response.json();
+      } catch {
+        throw new Error("Le service a renvoyé une réponse inattendue. Réessaie plus tard.");
+      }
+
+      if (!response.ok || !result || result.ok !== true) {
+        const message = result && typeof result.error === "string"
+          ? result.error
+          : "L’envoi a échoué. Réessaie dans quelques instants.";
+        throw new Error(message);
       }
 
       contactForm.reset();

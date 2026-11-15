@@ -19,6 +19,8 @@ vercel dev
 
 Le site sera disponible sur l’adresse locale indiquée par Vercel. Le formulaire envoie une requête à `api/contact.js`, qui valide les champs puis transmet le message à FormSubmit. Lors du premier envoi, FormSubmit envoie un e-mail de confirmation à l’adresse de réception : clique sur son lien pour activer le formulaire. Le service conserve les soumissions pendant 30 jours.
 
+L’API limite aussi les envois répétés à cinq messages par adresse IP sur quinze minutes. Cette limite en mémoire est une protection de base : Vercel peut répartir les requêtes entre plusieurs instances. Pour une protection durable en production, configure une règle de limitation de débit dans le pare-feu Vercel.
+
 ## Déploiement
 
 Déploie le dépôt sur Vercel. Dans les paramètres du projet, configure la variable d’environnement `CONTACT_TO` avec l’adresse qui doit recevoir les messages. Aucun domaine d’envoi ni secret tiers n’est requis. Après le premier envoi, confirme l’adresse avec le lien reçu de FormSubmit.
